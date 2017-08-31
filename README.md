@@ -1,5 +1,11 @@
 # Snapscreen API documentation
 
+Table of Contents
+=================
+* [A REST service which serves OAuth2 token requests (`/oauth/token`).](#oauthtoken)
+* [A REST service which serves search in the index of TV channels grabbed by the system (`/tv-search`)](#tv-search)
+* [`/ads/search`](#ads-search)
+
 ## `/oauth/token`
 A REST service which serves OAuth2 token requests (/oauth/token).
 
@@ -75,7 +81,7 @@ Client credentials required.
 ```javascript
 {
   "error": string,
-  "error_description: string
+  "error_description": string
 }
 ```
 
@@ -132,7 +138,7 @@ Client credentials required.
 | ---- | ---------- | ----------- | -------- | ------ | ------------- |
 | client_id | form | The client identifier specific to the client. | Yes | string | | 
 | client_secret | form | The client secret. | Yes | string | |
-| grant_type | form | Access grant type, in this case should facebook. | Yes | string (strict value: facebook) 
+| grant_type | form | Access grant type, in this case should facebook. | Yes | string (strict value: facebook) | |
 | access_token | form | Facebook OAuth access token to verify user identity. | Yes | string | | 
 | anonymous_token | form | Access token granted to anonymous user, if any available. | No | string | |
 | device_fingerprint | form | Unique device fingerprint. | Yes | string | | 
@@ -280,7 +286,7 @@ Client credentials required.
 }
 ```
 
-### DELETE /oauth/token
+### `DELETE /oauth/token`
 
 #### Description
 Revokes an access token.
@@ -291,4 +297,979 @@ Revokes an access token.
 | AccessToken | header | Access token which was provided after access grant. | Yes | string | |
 
 #### Responses
-* Status code: **200**. Description: Access token revoked. 
+* Status code: **200**. Description: Access token revoked.
+
+## `/tv-search`
+A REST service which serves search in the index of TV channels grabbed by the system (`/tv-search`).
+
+### `POST /tv-search/epg`
+
+#### Description
+Searches the EPG data using the TV index by a fingerprint optionally filtering by the ISO-code of a country in which TV channels broadcasted.
+
+#### Security
+Authentication required to have access to this resource.
+
+#### Consumes
+* application/octet-stream
+
+#### Parameters
+| Name | Located in | Description | Required | Schema | Default value |
+| ---- | ---------- | ----------- | -------- | ------ | ------------- |
+| X-Snapscreen-FingerprintAlgorithm | header | The version of an algorithm used to compute the fingerprint for search. | Yes | number (int) | |
+| X-Snapscreen-SearchAds | header | Whether to include ads into the result. | No | boolean | false |
+| X-Snapscreen-CountryCode | header | The ISO code of a country to filter result entries for TV channels broadcasted in it. | No | string | |
+| X-Snapscreen-GeoLocation | header | A GEO location from which the user made this request for search. | No | string | |
+| X-Snapscreen-DeviceInfo | header | An info about a device used by the user to make this request for search. | No | string | |
+| | body | The data of the computed fingerprint. | Yes | array (byte) | |
+
+#### Produces
+* application/json
+
+#### Responses
+* Status code: **200**. Description: The search result. Schema:
+```javascript
+{
+  "requestUuid": string (UUID),
+  "resultEntries": [
+    {
+      "tvChannel": {
+        "id": number (long),
+        "code": string,
+        "name": string,
+        "homepage": string (url),
+        "grabbed": boolean,
+        "tvCategories": [
+          {
+            "id": string,
+            "name": string,
+            "description": string
+          }
+        ],
+        "language": {
+          "id": number (long),
+          "code": string,
+          "name": string
+        },
+        "_links": {
+          "self": {
+            "href": string (url)
+          },
+          "logo": {
+            "href": string (url)
+          },
+          "poster": {
+           "href": string (url)
+          }
+        }
+      },
+      "epgUnit": {
+        "id": number (long),
+        "tvChannelId": number (long),
+        "startTime": string (iso date-time: yyyy-MM-dd'T'HH:mm:ss.SSSZZ),
+        "endTime": string (iso date-time: yyyy-MM-dd'T'HH:mm:ss.SSSZZ),
+        "title": string,
+        "subtitle": string,
+        "description": string,
+        "broadcastDate": string (date: yyyy-MM-dd),
+        "productionDate": string (date: yyyy-MM-dd),
+        "language": {
+          "id": number (long),
+          "code": string,
+          "name": string
+        },
+        "credits": {
+          "actor": [
+            {
+              "name": string,
+              "role": string
+            }
+          ],
+          "director": [
+            {
+              "name": string
+            }
+          ]
+        },
+        "genres": array (string),
+        "bannerUrl": string (url),
+        "posterUrl": string (url),
+        "keywords": string,
+        "_links": {
+          "self": {
+            "href": string (url)
+          },
+          "tvChannel": {
+            "href": string (url)
+          },
+          "tvChannelLogo": {
+            "href": string (url)
+          },
+          "bannerThumbnail": {
+            "href": string (url)
+          },
+          "posterThumbnail": {
+            "href": string (url)
+          }
+        }
+      },
+      "timestampRef": number (long)
+      "score": number (double),
+    }
+  ],
+  "adEntries": [
+    {
+      "advertisement": {
+        "id": number (long),
+        "title": string,
+        "description": string,
+        "landingPage": string (url),
+        "duration": number (long)
+      },
+      "timeOffset": number (long)
+      "score": number (double)
+    }
+  ]
+}
+```
+
+### `POST /tv-search/epg/by-image`
+
+#### Description
+Searches the EPG data using the TV index by an image optionally filtering by the ISO-code of a country in which TV channels broadcasted.
+
+#### Security
+Authentication required to have access to this resource.
+
+#### Consumes
+* application/octet-stream
+
+#### Parameters
+| Name | Located in | Description | Required | Schema | Default value |
+| ---- | ---------- | ----------- | -------- | ------ | ------------- |
+| X-Snapscreen-MimeType | header | The MIME type of the image for search. | Yes | string | |
+| X-Snapscreen-Width | header | The width of the image for search. | Yes | number (int) | |
+| X-Snapscreen-Height | header | The height of the image for search. | Yes | number (int) | |
+| X-Snapscreen-SearchAds | header | Whether to include ads into the result. | No | boolean | false |
+| X-Snapscreen-CountryCode | header | The ISO code of a country to filter result entries for TV channels broadcasted in it. | No | string | |
+| X-Snapscreen-GeoLocation | header | A GEO location from which the user made a request for search. | No | string | |
+| X-Snapscreen-DeviceInfo | header | An info about a device used by the user to make a request for search. | No | string | |
+| | body | The data of the image. | Yes | array (byte) | |
+
+#### Produces
+* application/json
+
+#### Responses
+* Status code: **200**. Description: The search result. Schema:
+```javascript
+{
+  "requestUuid": string (UUID),
+  "resultEntries": [
+    {
+      "tvChannel": {
+        "id": number (long),
+        "code": string,
+        "name": string,
+        "homepage": string (url),
+        "grabbed": boolean,
+        "tvCategories": [
+          {
+            "id": string,
+            "name": string,
+            "description": string
+          }
+        ],
+        "language": {
+          "id": number (long),
+          "code": string,
+          "name": string
+        },
+        "_links": {
+          "self": {
+            "href": string (url)
+          },
+          "logo": {
+            "href": string (url)
+          },
+          "poster": {
+           "href": string (url)
+          }
+        }
+      },
+      "epgUnit": {
+        "id": number (long),
+        "tvChannelId": number (long),
+        "startTime": string (iso date-time: yyyy-MM-dd'T'HH:mm:ss.SSSZZ),
+        "endTime": string (iso date-time: yyyy-MM-dd'T'HH:mm:ss.SSSZZ),
+        "title": string,
+        "subtitle": string,
+        "description": string,
+        "broadcastDate": string (date: yyyy-MM-dd),
+        "productionDate": string (date: yyyy-MM-dd),
+        "language": {
+          "id": number (long),
+          "code": string,
+          "name": string
+        },
+        "credits": {
+          "actor": [
+            {
+              "name": string,
+              "role": string
+            }
+          ],
+          "director": [
+            {
+              "name": string
+            }
+          ]
+        },
+        "genres": array (string),
+        "bannerUrl": string (url),
+        "posterUrl": string (url),
+        "keywords": string,
+        "_links": {
+          "self": {
+            "href": string (url)
+          },
+          "tvChannel": {
+            "href": string (url)
+          },
+          "tvChannelLogo": {
+            "href": string (url)
+          },
+          "bannerThumbnail": {
+            "href": string (url)
+          },
+          "posterThumbnail": {
+            "href": string (url)
+          }
+        }
+      },
+      "timestampRef": number (long)
+      "score": number (double),
+    }
+  ],
+  "adEntries": [
+    {
+      "advertisement": {
+        "id": number (long),
+        "title": string,
+        "description": string,
+        "landingPage": string (url),
+        "duration": number (long)
+      },
+      "timeOffset": number (long)
+      "score": number (double)
+    }
+  ]
+}
+```
+
+### `POST /tv-search/epg/near-timestamp`
+
+#### Description
+Searches the EPG data using the TV index by a fingerprint and near the specified timestamp optionally filtering by the ISO-code of a country in which TV channels broadcasted.
+
+#### Security
+Authentication required to have access to this resource.
+
+#### Consumes
+* application/octet-stream
+
+#### Parameters
+| Name | Located in | Description | Required | Schema | Default value |
+| ---- | ---------- | ----------- | -------- | ------ | ------------- |
+| X-Snapscreen-FingerprintAlgorithm | header | The version of an algorithm used to compute the fingerprint for search. | Yes | number (int) | |
+| X-Snapscreen-Timestamp | header | A timestamp to search near it. | Yes | number (long) | |
+| X-Snapscreen-TimestampWing | header | A wing to search around the timestamp. Optional, if not provided the default value be used. | No | number (long) | 30000 |
+| X-Snapscreen-SearchAds | header | Whether to include ads into the result. | No | boolean | false |
+| X-Snapscreen-CountryCode | header | The ISO code of a country to filter result entries for TV channels broadcasted in it. | No | string | |
+| X-Snapscreen-GeoLocation | header | A GEO location from which the user made a request for search. | No | string | |
+| X-Snapscreen-DeviceInfo | header | An info about a device used by the user to make a request for search. | No | string | |
+| | body | The data of the computed fingerprint. | Yes | array (byte) | |
+
+#### Produces
+* application/json
+
+#### Responses
+* Status code: **200**. Description: The search result. Schema:
+```javascript
+{
+  "requestUuid": string (UUID),
+  "resultEntries": [
+    {
+      "tvChannel": {
+        "id": number (long),
+        "code": string,
+        "name": string,
+        "homepage": string (url),
+        "grabbed": boolean,
+        "tvCategories": [
+          {
+            "id": string,
+            "name": string,
+            "description": string
+          }
+        ],
+        "language": {
+          "id": number (long),
+          "code": string,
+          "name": string
+        },
+        "_links": {
+          "self": {
+            "href": string (url)
+          },
+          "logo": {
+            "href": string (url)
+          },
+          "poster": {
+           "href": string (url)
+          }
+        }
+      },
+      "epgUnit": {
+        "id": number (long),
+        "tvChannelId": number (long),
+        "startTime": string (iso date-time: yyyy-MM-dd'T'HH:mm:ss.SSSZZ),
+        "endTime": string (iso date-time: yyyy-MM-dd'T'HH:mm:ss.SSSZZ),
+        "title": string,
+        "subtitle": string,
+        "description": string,
+        "broadcastDate": string (date: yyyy-MM-dd),
+        "productionDate": string (date: yyyy-MM-dd),
+        "language": {
+          "id": number (long),
+          "code": string,
+          "name": string
+        },
+        "credits": {
+          "actor": [
+            {
+              "name": string,
+              "role": string
+            }
+          ],
+          "director": [
+            {
+              "name": string
+            }
+          ]
+        },
+        "genres": array (string),
+        "bannerUrl": string (url),
+        "posterUrl": string (url),
+        "keywords": string,
+        "_links": {
+          "self": {
+            "href": string (url)
+          },
+          "tvChannel": {
+            "href": string (url)
+          },
+          "tvChannelLogo": {
+            "href": string (url)
+          },
+          "bannerThumbnail": {
+            "href": string (url)
+          },
+          "posterThumbnail": {
+            "href": string (url)
+          }
+        }
+      },
+      "timestampRef": number (long)
+      "score": number (double),
+    }
+  ],
+  "adEntries": [
+    {
+      "advertisement": {
+        "id": number (long),
+        "title": string,
+        "description": string,
+        "landingPage": string (url),
+        "duration": number (long)
+      },
+      "timeOffset": number (long)
+      "score": number (double)
+    }
+  ]
+}
+```
+
+### `POST /tv-search/epg/near-timestamp/by-image`
+
+#### Description
+Searches the EPG data using the TV index by an image and near the specified timestamp optionally filtering by the ISO-code of a country in which TV channels broadcasted.
+
+#### Security
+Authentication required to have access to this resource.
+
+#### Consumes
+* application/octet-stream
+
+#### Parameters
+| Name | Located in | Description | Required | Schema | Default value |
+| ---- | ---------- | ----------- | -------- | ------ | ------------- |
+| X-Snapscreen-MimeType | header | The MIME type of the image for search. | Yes | string | |
+| X-Snapscreen-Width | header | The width of the image for search. | Yes | number (int) | |
+| X-Snapscreen-Height | header | The height of the image for search. | Yes | number (int) | |
+| X-Snapscreen-Timestamp | header | A timestamp to search near it. | Yes | number (long) | |
+| X-Snapscreen-TimestampWing | header | A wing to search around the timestamp. Optional, if not provided the default value will be used. | No | number (long) | 30000 |
+| X-Snapscreen-SearchAds | header | Whether to include ads into the result. | No | boolean | false |
+| X-Snapscreen-CountryCode | header | The ISO code of a country to filter result entries for TV channels broadcasted in it. | No | string | |
+| X-Snapscreen-GeoLocation | header | A GEO location from which the user made a request for search. | No | string | |
+| X-Snapscreen-DeviceInfo | header | An info about a device used by the user to make a request for search. | No | string | |
+| | body | The data of the image. | Yes | array (byte) | |
+
+#### Produces
+* application/json
+
+#### Responses
+* Status code: **200**. Description: The search result. Schema:
+```javascript
+{
+  "requestUuid": string (UUID),
+  "resultEntries": [
+    {
+      "tvChannel": {
+        "id": number (long),
+        "code": string,
+        "name": string,
+        "homepage": string (url),
+        "grabbed": boolean,
+        "tvCategories": [
+          {
+            "id": string,
+            "name": string,
+            "description": string
+          }
+        ],
+        "language": {
+          "id": number (long),
+          "code": string,
+          "name": string
+        },
+        "_links": {
+          "self": {
+            "href": string (url)
+          },
+          "logo": {
+            "href": string (url)
+          },
+          "poster": {
+           "href": string (url)
+          }
+        }
+      },
+      "epgUnit": {
+        "id": number (long),
+        "tvChannelId": number (long),
+        "startTime": string (iso date-time: yyyy-MM-dd'T'HH:mm:ss.SSSZZ),
+        "endTime": string (iso date-time: yyyy-MM-dd'T'HH:mm:ss.SSSZZ),
+        "title": string,
+        "subtitle": string,
+        "description": string,
+        "broadcastDate": string (date: yyyy-MM-dd),
+        "productionDate": string (date: yyyy-MM-dd),
+        "language": {
+          "id": number (long),
+          "code": string,
+          "name": string
+        },
+        "credits": {
+          "actor": [
+            {
+              "name": string,
+              "role": string
+            }
+          ],
+          "director": [
+            {
+              "name": string
+            }
+          ]
+        },
+        "genres": array (string),
+        "bannerUrl": string (url),
+        "posterUrl": string (url),
+        "keywords": string,
+        "_links": {
+          "self": {
+            "href": string (url)
+          },
+          "tvChannel": {
+            "href": string (url)
+          },
+          "tvChannelLogo": {
+            "href": string (url)
+          },
+          "bannerThumbnail": {
+            "href": string (url)
+          },
+          "posterThumbnail": {
+            "href": string (url)
+          }
+        }
+      },
+      "timestampRef": number (long)
+      "score": number (double),
+    }
+  ],
+  "adEntries": [
+    {
+      "advertisement": {
+        "id": number (long),
+        "title": string,
+        "description": string,
+        "landingPage": string (url),
+        "duration": number (long)
+      },
+      "timeOffset": number (long)
+      "score": number (double)
+    }
+  ]
+}
+```
+
+### `POST /tv-search/sport`
+
+#### Description
+Searches sport events using the TV index by a fingerprint optionally filtering by the ISO-code of a country in which TV channels broadcasted.
+
+#### Security
+Authentication required to have access to this resource.
+
+#### Consumes
+* application/octet-stream
+
+#### Parameters
+| Name | Located in | Description | Required | Schema | Default value |
+| ---- | ---------- | ----------- | -------- | ------ | ------------- |
+| X-Snapscreen-FingerprintAlgorithm | header | The version of an algorithm used to compute the fingerprint for search. | Yes | number (int) | |
+| X-Snapscreen-SearchAds | header | Whether to include ads into the result. | No | boolean | false |
+| X-Snapscreen-CountryCode | header | The ISO code of a country to filter result entries for TV channels broadcasted in it. | No | string | |
+| X-Snapscreen-GeoLocation | header | A GEO location from which the user made this request for search. | No | string | |
+| X-Snapscreen-DeviceInfo | header | An info about a device used by the user to make this request for search. | No | string | |
+| | body | The data of the computed fingerprint. | Yes | array (byte) | |
+
+#### Produces
+* application/json
+
+#### Responses
+* Status code: **200**. Description: The search result. Schema:
+```javascript
+{
+  "requestUuid": string (UUID),
+  "resultEntries": [
+    {
+      "tvChannel": {
+        "id": number (long),
+        "code": string,
+        "name": string,
+        "homepage": string (url),
+        "grabbed": boolean,
+        "tvCategories": [
+          {
+            "id": string,
+            "name": string,
+            "description": string
+          }
+        ],
+        "language": {
+          "id": number (long),
+          "code": string,
+          "name": string
+        },
+        "_links": {
+          "self": {
+            "href": string (url)
+          },
+          "logo": {
+            "href": string (url)
+          },
+          "poster": {
+            "href": string (url)
+          }
+        }
+      },
+      "sportEvent": {
+        "id": number (long),
+        "sportDataProviderCode": string,
+        "sportDataProviderMatchId": string,
+        "tvChannelId": number (long),
+        "startTime": string (iso date-time: yyyy-MM-dd'T'HH:mm:ss.SSSZZ),
+        "endTime": string (iso date-time: yyyy-MM-dd'T'HH:mm:ss.SSSZZ),
+        "sport": string,
+        "tournament": string,
+        "category": string,
+        "competitors": [
+          {
+             "name": string
+          }
+        ],
+        "_links": {
+          "self": {
+            "href": string (url)
+          },
+          "tvChannel": {
+            "href": string (url)
+          },
+          "tvChannelLogo": {
+            "href": string (url)
+          }
+        }
+      },
+      "timestampRef": number (long),
+      "score": number (double)
+    }
+  ],
+  "adEntries": [
+    {
+      "advertisement": {
+        "id": number (long),
+        "title": string,
+        "description": string,
+        "landingPage": string (url),
+        "duration": number (long)
+      },
+      "timeOffset": number (long),
+      "score": number (double)
+    }
+  ]
+}
+```
+
+### `POST /tv-search/sport/by-image`
+
+#### Description
+Searches sport events using the TV index by an image optionally filtering by the ISO-code of a country in which TV channels broadcasted.
+
+#### Security
+Authentication required to have access to this resource.
+
+#### Consumes
+* application/octet-stream
+
+#### Parameters
+| Name | Located in | Description | Required | Schema | Default value |
+| ---- | ---------- | ----------- | -------- | ------ | ------------- |
+| X-Snapscreen-MimeType | header | The MIME type of the image for search. | Yes | string | |
+| X-Snapscreen-Width | header | The width of the image for search. | Yes | number (int) | |
+| X-Snapscreen-Height | header | The height of the image for search. | Yes | number (int) | |
+| X-Snapscreen-SearchAds | header | Whether to include ads into the result. | No | boolean | false |
+| X-Snapscreen-CountryCode | header | The ISO code of a country to filter result entries for TV channels broadcasted in it. | No | string | |
+| X-Snapscreen-GeoLocation | header | A GEO location from which the user made a request for search. | No | string | |
+| X-Snapscreen-DeviceInfo | header | An info about a device used by the user to make a request for search. | No | string | |
+| | body | The data of the image. | Yes | array (byte) | |
+
+#### Produces
+* application/json
+
+#### Responses
+* Status code: **200**. Description: The search result. Schema:
+```javascript
+{
+  "requestUuid": string (UUID),
+  "resultEntries": [
+    {
+      "tvChannel": {
+        "id": number (long),
+        "code": string,
+        "name": string,
+        "homepage": string (url),
+        "grabbed": boolean,
+        "tvCategories": [
+          {
+            "id": string,
+            "name": string,
+            "description": string
+          }
+        ],
+        "language": {
+          "id": number (long),
+          "code": string,
+          "name": string
+        },
+        "_links": {
+          "self": {
+            "href": string (url)
+          },
+          "logo": {
+            "href": string (url)
+          },
+          "poster": {
+            "href": string (url)
+          }
+        }
+      },
+      "sportEvent": {
+        "id": number (long),
+        "sportDataProviderCode": string,
+        "sportDataProviderMatchId": string,
+        "tvChannelId": number (long),
+        "startTime": string (iso date-time: yyyy-MM-dd'T'HH:mm:ss.SSSZZ),
+        "endTime": string (iso date-time: yyyy-MM-dd'T'HH:mm:ss.SSSZZ),
+        "sport": string,
+        "tournament": string,
+        "category": string,
+        "competitors": [
+          {
+             "name": string
+          }
+        ],
+        "_links": {
+          "self": {
+            "href": string (url)
+          },
+          "tvChannel": {
+            "href": string (url)
+          },
+          "tvChannelLogo": {
+            "href": string (url)
+          }
+        }
+      },
+      "timestampRef": number (long),
+      "score": number (double),
+    }
+  ],
+  "adEntries": [
+    {
+      "advertisement": {
+        "id": number (long),
+        "title": string,
+        "description": string,
+        "landingPage": string (url),
+        "duration": number (long)
+      },
+      "timeOffset": number (long),
+      "score": number (double)
+    }
+  ]
+}
+```
+
+### `POST /tv-search/sport/near-timestamp`
+
+#### Description
+Searches sport events using the TV index by a fingerprint and near the specified timestamp optionally filtering by the ISO-code of a country in which TV channels broadcasted.
+
+#### Security
+Authentication required to have access to this resource.
+
+#### Consumes
+* application/octet-stream
+
+#### Parameters
+| Name | Located in | Description | Required | Schema | Default value |
+| ---- | ---------- | ----------- | -------- | ------ | ------------- |
+| X-Snapscreen-FingerprintAlgorithm | header | The version of an algorithm used to compute the fingerprint for search. | Yes | number (int) | |
+| X-Snapscreen-Timestamp | header | A timestamp to search near it. | Yes | number (long) | |
+| X-Snapscreen-TimestampWing | header | A wing to search around the timestamp. Optional, if not provided the default value be used. | No | number (long) | 30000 |
+| X-Snapscreen-SearchAds | header | Whether to include ads into the result. | No | boolean | false |
+| X-Snapscreen-CountryCode | header | The ISO code of a country to filter result entries for TV channels broadcasted in it. | No | string | |
+| X-Snapscreen-GeoLocation | header | A GEO location from which the user made a request for search. | No | string | |
+| X-Snapscreen-DeviceInfo | header | An info about a device used by the user to make a request for search. | No | string | |
+| | body | The data of the computed fingerprint. | Yes | array (byte) | |
+
+#### Produces
+* application/json
+
+#### Responses
+* Status code: **200**. Description: The search result. Schema:
+```javascript
+{
+  "requestUuid": string (UUID),
+  "resultEntries": [
+    {
+      "tvChannel": {
+        "id": number (long),
+        "code": string,
+        "name": string,
+        "homepage": string (url),
+        "grabbed": boolean,
+        "tvCategories": [
+          {
+            "id": string,
+            "name": string,
+            "description": string
+          }
+        ],
+        "language": {
+          "id": number (long),
+          "code": string,
+          "name": string
+        },
+        "_links": {
+          "self": {
+            "href": string (url)
+          },
+          "logo": {
+            "href": string (url)
+          },
+          "poster": {
+            "href": string (url)
+          }
+        }
+      },
+      "sportEvent": {
+        "id": number (long),
+        "sportDataProviderCode": string,
+        "sportDataProviderMatchId": string,
+        "tvChannelId": number (long),
+        "startTime": string (iso date-time: yyyy-MM-dd'T'HH:mm:ss.SSSZZ),
+        "endTime": string (iso date-time: yyyy-MM-dd'T'HH:mm:ss.SSSZZ),
+        "sport": string,
+        "tournament": string,
+        "category": string,
+        "competitors": [
+          {
+             "name": string
+          }
+        ],
+        "_links": {
+          "self": {
+            "href": string (url)
+          },
+          "tvChannel": {
+            "href": string (url)
+          },
+          "tvChannelLogo": {
+            "href": string (url)
+          }
+        }
+      },
+      "timestampRef": number (long),
+      "score": number (double),
+    }
+  ],
+  "adEntries": [
+    {
+      "advertisement": {
+        "id": number (long),
+        "title": string,
+        "description": string,
+        "landingPage": string (url),
+        "duration": number (long)
+      },
+      "timeOffset": number (long),
+      "score": number (double)
+    }
+  ]
+}
+```
+
+### POST /tv-search/sport/near-timestamp/by-image
+
+#### Description
+Searches sport events using the TV index by an image and near the specified timestamp optionally filtering by the ISO-code of a country in which TV channels broadcasted.
+
+#### Security
+Authentication required to have access to this resource.
+
+#### Consumes
+* application/octet-stream
+
+#### Parameters
+| Name | Located in | Description | Required | Schema | Default value |
+| ---- | ---------- | ----------- | -------- | ------ | ------------- |
+| X-Snapscreen-MimeType | header | The MIME type of the image for search. | Yes | string | |
+| X-Snapscreen-Width | header | The width of the image for search. | Yes | number (int) | |
+| X-Snapscreen-Height | header | The height of the image for search. | Yes | number (int) | |
+| X-Snapscreen-Timestamp | header | A timestamp to search near it. | Yes | number (long) | |
+| X-Snapscreen-TimestampWing | header | A wing to search around the timestamp. Optional, if not provided the default value will be used. | No | number (long) | 30000 |
+| X-Snapscreen-SearchAds | header | Whether to include ads into the result. | No | boolean | false |
+| X-Snapscreen-CountryCode | header | The ISO code of a country to filter result entries for TV channels broadcasted in it. | No | string | |
+| X-Snapscreen-GeoLocation | header | A GEO location from which the user made a request for search. | No | string | |
+| X-Snapscreen-DeviceInfo | header | An info about a device used by the user to make a request for search. | No | string | |
+| | body | The data of the image. | Yes | array (byte) | |
+
+#### Produces
+* application/json
+
+#### Responses
+* Status code: **200**. Description: The search result. Schema:
+```javascript
+{
+  "requestUuid": string (UUID),
+  "resultEntries": [
+    {
+      "tvChannel": {
+        "id": number (long),
+        "code": string,
+        "name": string,
+        "homepage": string (url),
+        "grabbed": boolean,
+        "tvCategories": [
+          {
+            "id": string,
+            "name": string,
+            "description": string
+          }
+        ],
+        "language": {
+          "id": number (long),
+          "code": string,
+          "name": string
+        },
+        "_links": {
+          "self": {
+            "href": string (url)
+          },
+          "logo": {
+            "href": string (url)
+          },
+          "poster": {
+            "href": string (url)
+          }
+        }
+      },
+      "sportEvent": {
+        "id": number (long),
+        "sportDataProviderCode": string,
+        "sportDataProviderMatchId": string,
+        "tvChannelId": number (long),
+        "startTime": string (iso date-time: yyyy-MM-dd'T'HH:mm:ss.SSSZZ),
+        "endTime": string (iso date-time: yyyy-MM-dd'T'HH:mm:ss.SSSZZ),
+        "sport": string,
+        "tournament": string,
+        "category": string,
+        "competitors": [
+          {
+             "name": string
+          }
+        ],
+        "_links": {
+          "self": {
+            "href": string (url)
+          },
+          "tvChannel": {
+            "href": string (url)
+          },
+          "tvChannelLogo": {
+            "href": string (url)
+          }
+        }
+      },
+      "timestampRef": number (long),
+      "score": number (double),
+    }
+  ],
+  "adEntries": [
+    {
+      "advertisement": {
+        "id": number (long),
+        "title": string,
+        "description": string,
+        "landingPage": string (url),
+        "duration": number (long)
+      },
+      "timeOffset": number (long),
+      "score": number (double)
+    }
+  ]
+}
+```
