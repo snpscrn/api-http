@@ -3,8 +3,8 @@
 Table of Contents
 =================
 * [A REST service which serves OAuth2 token requests (`/oauth/token`).](#oauthtoken)
-* [A REST service which serves search in the index of TV channels grabbed by the system (`/tv-search`)](#tv-search)
-* [`/ads/search`](#ads-search)
+* [A REST service which serves search in the index of TV channels grabbed by the system (`/tv-search`).](#tv-search)
+* [A REST service which serves search in the index of advertisements (`/ads/search`).](#adssearch)
 
 ## `/oauth/token`
 A REST service which serves OAuth2 token requests (/oauth/token).
@@ -1259,6 +1259,95 @@ Authentication required to have access to this resource.
     }
   ],
   "adEntries": [
+    {
+      "advertisement": {
+        "id": number (long),
+        "title": string,
+        "description": string,
+        "landingPage": string (url),
+        "duration": number (long)
+      },
+      "timeOffset": number (long),
+      "score": number (double)
+    }
+  ]
+}
+```
+
+## `/ads/search`
+A REST service which serves search in the index of advertisements (/ads/search).
+
+### `POST /ads/search`
+#### Description
+Searches in the index by a fingerprint.
+
+#### Security
+Authentication required to have access to this resource.
+
+#### Consumes
+* application/octet-stream
+
+#### Parameters
+| Name | Located in | Description | Required | Schema | Default value |
+| ---- | ---------- | ----------- | -------- | ------ | ------------- |
+| X-Snapscreen-FingerprintAlgorithm | header | The version of an algorithm used to compute the fingerprint for search. | Yes | number (int) | |
+| X-Snapscreen-GeoLocation | header | A GEO location from which the user made this request for search. | No | string | |
+| X-Snapscreen-DeviceInfo | header | An info about a device used by the user to make this request for search. | No | string | |
+| | body | The data of the computed fingerprint. | Yes | array (byte) | |
+
+#### Produces
+* application/json
+
+#### Responses
+* Status code: **200**. Description: The search result. Schema:
+```javascript
+{
+  "requestUuid": string (UUID),
+  "resultEntries": [
+    {
+      "advertisement": {
+        "id": number (long),
+        "title": string,
+        "description": string,
+        "landingPage": string (url),
+        "duration": number (long)
+      },
+      "timeOffset": number (long),
+      "score": number (double)
+    }
+  ]
+}
+```
+
+### `POST /ads/search/by-image`
+#### Description
+Searches in the index by an image optionally filtering.
+
+#### Security
+Authentication required to have access to this resource.
+
+#### Consumes
+* application/octet-stream
+
+#### Parameters
+| Name | Located in | Description | Required | Schema | Default value |
+| ---- | ---------- | ----------- | -------- | ------ | ------------- |
+| X-Snapscreen-MimeType | header | The MIME type of the image for search. | Yes | string | |
+| X-Snapscreen-Width | header | The width of the image for search. | Yes | number (int) | |
+| X-Snapscreen-Height | header | The height of the image for search. | Yes | number (int) | |
+| X-Snapscreen-GeoLocation | header | A GEO location from which the user made a request for search. | No | string | |
+| X-Snapscreen-DeviceInfo | header | An info about a device used by the user to make a request for search. | No | string | |
+| | body | The data of the image. | Yes | array (byte) | |
+
+#### Produces
+* application/json
+
+#### Responses
+* Status code: **200**. Description: The search result. Schema:
+```javascript
+{
+  "requestUuid": string (UUID),
+  "resultEntries": [
     {
       "advertisement": {
         "id": number (long),
