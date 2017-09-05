@@ -302,7 +302,7 @@ Revokes an access token.
 ## `/tv-search`
 A REST service which serves search in the index of TV channels grabbed by the system (`/tv-search`).
 
-### `POST /tv-search/epg`
+### `POST https://api.snapscreen.com/api/tv-search/epg`
 
 #### Description
 Searches the EPG data using the TV index by a fingerprint optionally filtering by the ISO-code of a country in which TV channels broadcasted.
