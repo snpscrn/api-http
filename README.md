@@ -9,7 +9,7 @@ Table of Contents
 ## `/oauth/token`
 A REST service which serves OAuth2 token requests (/oauth/token).
 
-### `POST /oauth/token (client_id&client_secret&grant_type=client_credentials&device_fingerprint)`
+### `POST https://api.snapscreen.com/api/oauth/token (client_id&client_secret&grant_type=client_credentials&device_fingerprint)`
 #### Description
 Grants an access token by client credentials.
 
@@ -46,7 +46,7 @@ Client credentials required.
 }
 ```
 
-### `POST /oauth/token (client_id&client_secret&grant_type=anonymous&email&device_fingerprint)`
+### `POST https://api.snapscreen.com/api/oauth/token (client_id&client_secret&grant_type=anonymous&email&device_fingerprint)`
 
 #### Description
 Grants an access token to an anonymous user.
@@ -85,7 +85,7 @@ Client credentials required.
 }
 ```
 
-### `POST /oauth/token (client_id&client_secret&grant_type=password&username&password&device_fingerprint)`
+### `POST https://api.snapscreen.com/api/oauth/token (client_id&client_secret&grant_type=password&username&password&device_fingerprint)`
 
 #### Description
 Grants an access token to a user by email and password.
@@ -125,7 +125,7 @@ Client credentials required.
 }
 ```
 
-### `POST /oauth/token (client_id&client_secret&grant_type=facebook&access_token&anonymous_token&device_fingerprint)`
+### `POST https://api.snapscreen.com/api/oauth/token (client_id&client_secret&grant_type=facebook&access_token&anonymous_token&device_fingerprint)`
 
 #### Description
 Grants an access token to a user via Facebook.
@@ -165,7 +165,7 @@ Client credentials required.
 }
 ```
 
-### `POST /oauth/token (client_id&client_secret&grant_type=google&id_token&access_token&anonymous_token&device_fingerprint)`
+### `POST https://api.snapscreen.com/api/oauth/token (client_id&client_secret&grant_type=google&id_token&access_token&anonymous_token&device_fingerprint)`
 
 #### Description
 Grants an access token to a user via Google.
@@ -206,7 +206,7 @@ Client credentials required.
 }
 ```
 
-### `POST /oauth/token (client_id&client_secret&grant_type=twitter&x_auth_service_provider&x_verify_credentials_authorization&anonymous_token&device_fingerprint)`
+### `POST https://api.snapscreen.com/api/oauth/token (client_id&client_secret&grant_type=twitter&x_auth_service_provider&x_verify_credentials_authorization&anonymous_token&device_fingerprint)`
 
 #### Description
 Grants an access token to a user via Twitter.
@@ -247,7 +247,7 @@ Client credentials required.
 }
 ```
 
-### `POST /oauth/token (client_id&client_secret&grant_type=refresh_token&refresh_token&device_fingerprint)`
+### `POST https://api.snapscreen.com/api/oauth/token (client_id&client_secret&grant_type=refresh_token&refresh_token&device_fingerprint)`
 
 #### Description
 Refreshes an access token.
@@ -286,7 +286,7 @@ Client credentials required.
 }
 ```
 
-### `DELETE /oauth/token`
+### `DELETE https://api.snapscreen.com/api/oauth/token`
 
 #### Description
 Revokes an access token.
@@ -433,7 +433,7 @@ Authentication required to have access to this resource.
 }
 ```
 
-### `POST /tv-search/epg/by-image`
+### `POST https://api.snapscreen.com/api/tv-search/epg/by-image`
 
 #### Description
 Searches the EPG data using the TV index by an image optionally filtering by the ISO-code of a country in which TV channels broadcasted.
@@ -566,7 +566,7 @@ Authentication required to have access to this resource.
 }
 ```
 
-### `POST /tv-search/epg/near-timestamp`
+### `POST https://api.snapscreen.com/api/tv-search/epg/near-timestamp`
 
 #### Description
 Searches the EPG data using the TV index by a fingerprint and near the specified timestamp optionally filtering by the ISO-code of a country in which TV channels broadcasted.
@@ -699,7 +699,7 @@ Authentication required to have access to this resource.
 }
 ```
 
-### `POST /tv-search/epg/near-timestamp/by-image`
+### `POST https://api.snapscreen.com/api/tv-search/epg/near-timestamp/by-image`
 
 #### Description
 Searches the EPG data using the TV index by an image and near the specified timestamp optionally filtering by the ISO-code of a country in which TV channels broadcasted.
@@ -834,7 +834,7 @@ Authentication required to have access to this resource.
 }
 ```
 
-### `POST /tv-search/sport`
+### `POST https://api.snapscreen.com/api/tv-search/sport`
 
 #### Description
 Searches sport events using the TV index by a fingerprint optionally filtering by the ISO-code of a country in which TV channels broadcasted.
@@ -942,7 +942,7 @@ Authentication required to have access to this resource.
 }
 ```
 
-### `POST /tv-search/sport/by-image`
+### `POST https://api.snapscreen.com/api/tv-search/sport/by-image`
 
 #### Description
 Searches sport events using the TV index by an image optionally filtering by the ISO-code of a country in which TV channels broadcasted.
@@ -1052,7 +1052,7 @@ Authentication required to have access to this resource.
 }
 ```
 
-### `POST /tv-search/sport/near-timestamp`
+### `POST https://api.snapscreen.com/api/tv-search/sport/near-timestamp`
 
 #### Description
 Searches sport events using the TV index by a fingerprint and near the specified timestamp optionally filtering by the ISO-code of a country in which TV channels broadcasted.
@@ -1162,7 +1162,7 @@ Authentication required to have access to this resource.
 }
 ```
 
-### POST /tv-search/sport/near-timestamp/by-image
+### `POST https://api.snapscreen.com/api/tv-search/sport/near-timestamp/by-image`
 
 #### Description
 Searches sport events using the TV index by an image and near the specified timestamp optionally filtering by the ISO-code of a country in which TV channels broadcasted.
@@ -1277,7 +1277,7 @@ Authentication required to have access to this resource.
 ## `/ads/search`
 A REST service which serves search in the index of advertisements (/ads/search).
 
-### `POST /ads/search`
+### `POST https://api.snapscreen.com/api/ads/search`
 #### Description
 Searches in the index by a fingerprint.
 
@@ -1319,7 +1319,7 @@ Authentication required to have access to this resource.
 }
 ```
 
-### `POST /ads/search/by-image`
+### `POST https://api.snapscreen.com/api/ads/search/by-image`
 #### Description
 Searches in the index by an image optionally filtering.
 
