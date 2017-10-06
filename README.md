@@ -562,6 +562,26 @@ Authentication required to have access to this resource.
       "timeOffset": number (long)
       "score": number (double)
     }
+  ],
+  "screenQuadrangles": [
+    {
+      "a": {
+        "x": number (int),
+        "y": number (int)
+      },
+      "b": {
+        "x": number (int),
+        "y": number (int)
+      },
+      "c": {
+        "x": number (int),
+        "y": number (int)
+      },
+      "d": {
+        "x": number (int),
+        "y": number (int)
+      }
+    }
   ]
 }
 ```
@@ -830,6 +850,26 @@ Authentication required to have access to this resource.
       "timeOffset": number (long)
       "score": number (double)
     }
+  ],
+  "screenQuadrangles": [
+    {
+      "a": {
+        "x": number (int),
+        "y": number (int)
+      },
+      "b": {
+        "x": number (int),
+        "y": number (int)
+      },
+      "c": {
+        "x": number (int),
+        "y": number (int)
+      },
+      "d": {
+        "x": number (int),
+        "y": number (int)
+      }
+    }
   ]
 }
 ```
@@ -1047,6 +1087,26 @@ Authentication required to have access to this resource.
       },
       "timeOffset": number (long),
       "score": number (double)
+    }
+  ],
+  "screenQuadrangles": [
+    {
+      "a": {
+        "x": number (int),
+        "y": number (int)
+      },
+      "b": {
+        "x": number (int),
+        "y": number (int)
+      },
+      "c": {
+        "x": number (int),
+        "y": number (int)
+      },
+      "d": {
+        "x": number (int),
+        "y": number (int)
+      }
     }
   ]
 }
@@ -1270,6 +1330,26 @@ Authentication required to have access to this resource.
       "timeOffset": number (long),
       "score": number (double)
     }
+  ],
+  "screenQuadrangles": [
+    {
+      "a": {
+        "x": number (int),
+        "y": number (int)
+      },
+      "b": {
+        "x": number (int),
+        "y": number (int)
+      },
+      "c": {
+        "x": number (int),
+        "y": number (int)
+      },
+      "d": {
+        "x": number (int),
+        "y": number (int)
+      }
+    }
   ]
 }
 ```
@@ -1358,6 +1438,26 @@ Authentication required to have access to this resource.
       },
       "timeOffset": number (long),
       "score": number (double)
+    }
+  ],
+  "screenQuadrangles": [
+    {
+      "a": {
+        "x": number (int),
+        "y": number (int)
+      },
+      "b": {
+        "x": number (int),
+        "y": number (int)
+      },
+      "c": {
+        "x": number (int),
+        "y": number (int)
+      },
+      "d": {
+        "x": number (int),
+        "y": number (int)
+      }
     }
   ]
 }
