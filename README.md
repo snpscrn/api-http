@@ -4,8 +4,9 @@ Table of Contents
 =================
 * [A REST service which serves OAuth2 token requests (`/oauth/token`).](#oauthtoken)
 * [A REST service which serves search in the index of TV channels grabbed by the system (`/tv-search`).](#tv-search)
-* [A REST service which serves search in the index of advertisements (`/ads/search`).](#adssearch)
 * [A REST service which serves TS images grabbed by the system on TV channels (`/ts-images`).](#ts-images)
+* [A REST service which serves search in the index of advertisements (`/ads/search`).](#adssearch)
+* [A REST service which serves ad images. (`/ads/images`).](#adsimages)
 
 ## `/oauth/token`
 A REST service which serves OAuth2 token requests (/oauth/token).
@@ -1355,6 +1356,66 @@ Authentication required to have access to this resource.
 }
 ```
 
+## `/ts-images`
+A REST service which serves TS images grabbed by the system on TV channels (/ts-images).
+
+### `GET /ts-images/{tvChannelId}/{timestampRef}`
+#### Description
+Gets the metadata of a TS image grabbed on a TV channel at a timestamp.
+
+#### Security
+Authentication required to have access to this resource.
+
+#### Parameters
+| Name | Located in | Description | Required | Schema | Default value |
+| ---- | ---------- | ----------- | -------- | ------ | ------------- |
+| tvChannelId | path | The id of a TV channel on which a TS image was grabbed. | Yes | number (long) | |
+| timestampRef | path | The timestamp when a TS image was grabbed. | Yes | number (long) | | 
+
+#### Produces
+* application/json
+
+#### Responses
+* Status code: **200**. Description: A TS image. Schema:
+```javascript
+{
+  id: number (long),
+  tvChannelId: number (long),
+  timestampRef: number (long),
+  mimeType: string (MIME Type),
+  width: number (int),
+  height: number (int),
+  _links: {
+    self: {
+      href: string (url)
+    },
+    download: {
+      href: string (url)
+    }
+  }
+}
+```
+
+### `GET /ts-images/{tvChannelId}/{timestampRef}/download`
+#### Description
+Downloads the data of a TS image grabbed on a TV channel at a timestamp.
+
+#### Security
+Authentication required to have access to this resource.
+
+#### Parameters
+| Name | Located in | Description | Required | Schema | Default value |
+| ---- | ---------- | ----------- | -------- | ------ | ------------- |
+| tvChannelId | path | The id of a TV channel on which a TS image was grabbed. | Yes | number (long) | |
+| timestampRef | path | The timestamp when a TS image was grabbed. | Yes | number (long) | | 
+
+#### Produces
+* The MIME Type of the TS image (e.g. image/jpeg).
+
+#### Responses
+* Status code: **200**. Description: The data of the TS image. Filename:
+ts-image-{tvChannelId}-{timestampRef}.{mimeType.subType}.
+
 ## `/ads/search`
 A REST service which serves search in the index of advertisements (/ads/search).
 
@@ -1464,12 +1525,12 @@ Authentication required to have access to this resource.
 }
 ```
 
-## `/ts-images`
-A REST service which serves TS images grabbed by the system on TV channels (/ts-images).
+## `/ads/images`
+A REST service which serves advertisement images. (/ads/images).
 
-### `GET /ts-images/{tvChannelId}/{timestampRef}`
+### `GET /ads/images/{advertisementId}/{timeOffset}`
 #### Description
-Gets the metadata of a TS image grabbed on a TV channel at a timestamp.
+Retrieves an image of the given advertisement at the given time offset.
 
 #### Security
 Authentication required to have access to this resource.
@@ -1477,24 +1538,27 @@ Authentication required to have access to this resource.
 #### Parameters
 | Name | Located in | Description | Required | Schema | Default value |
 | ---- | ---------- | ----------- | -------- | ------ | ------------- |
-| tvChannelId | path | The id of a TV channel on which a TS image was grabbed. | Yes | number (long) | |
-| timestampRef | path | The timestamp when a TS image was grabbed. | Yes | number (long) | | 
+| advertisementId | path | The id of an advertisement whose image you want to retrieve. | Yes | number (long) | |
+| timeOffset | path | The time offset of the image you want to retrieve. | Yes | number (long) | | 
 
 #### Produces
 * application/json
 
 #### Responses
-* Status code: **200**. Description: A TS image. Schema:
+* Status code: **200**. Description: An advertisement image. Schema:
 ```javascript
 {
   id: number (long),
-  tvChannelId: number (long),
-  timestampRef: number (long),
+  advertisementId: number (long),
+  timeOffset: number (long),
   mimeType: string (MIME Type),
   width: number (int),
   height: number (int),
   _links: {
     self: {
+      href: string (url)
+    },
+    advertisement: {
       href: string (url)
     },
     download: {
@@ -1504,9 +1568,9 @@ Authentication required to have access to this resource.
 }
 ```
 
-### `GET /ts-images/{tvChannelId}/{timestampRef}/download`
+### `GET /ads/images/{advertisementId}/{timeOffset}/download`
 #### Description
-Downloads the data of a TS image grabbed on a TV channel at a timestamp.
+Downloads the content of an image of the given advertisement at the given time offset.
 
 #### Security
 Authentication required to have access to this resource.
@@ -1514,12 +1578,12 @@ Authentication required to have access to this resource.
 #### Parameters
 | Name | Located in | Description | Required | Schema | Default value |
 | ---- | ---------- | ----------- | -------- | ------ | ------------- |
-| tvChannelId | path | The id of a TV channel on which a TS image was grabbed. | Yes | number (long) | |
-| timestampRef | path | The timestamp when a TS image was grabbed. | Yes | number (long) | | 
+| advertisementId | path | The id of an advertisement whose image you want to retrieve. | Yes | number (long) | |
+| timeOffset | path | The time offset of the image you want to retrieve. | Yes | number (long) | | 
 
 #### Produces
-* The MIME Type of the TS image (e.g. image/jpeg).
+* The MIME Type of the advertisement image (e.g. image/jpeg).
 
 #### Responses
-* Status code: **200**. Description: The data of the TS image. Filename:
-ts-image-{tvChannelId}-{timestampRef}.{mimeType.subType}.
+* Status code: **200**. Description: The data of the advertisement image.
+Filename: ad-image-{id}-{advertisementId}-{timeOffset}.{mimeType.subType}.
