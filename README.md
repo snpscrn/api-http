@@ -5,6 +5,7 @@ Table of Contents
 * [A REST service which serves OAuth2 token requests (`/oauth/token`).](#oauthtoken)
 * [A REST service which serves search in the index of TV channels grabbed by the system (`/tv-search`).](#tv-search)
 * [A REST service which serves search in the index of advertisements (`/ads/search`).](#adssearch)
+* [A REST service which serves TS images grabbed by the system on TV channels (`/ts-images`).](#ts-images)
 
 ## `/oauth/token`
 A REST service which serves OAuth2 token requests (/oauth/token).
@@ -1462,3 +1463,63 @@ Authentication required to have access to this resource.
   ]
 }
 ```
+
+## `/ts-images`
+A REST service which serves TS images grabbed by the system on TV channels (/ts-images).
+
+### `GET /ts-images/{tvChannelId}/{timestampRef}`
+#### Description
+Gets the metadata of a TS image grabbed on a TV channel at a timestamp.
+
+#### Security
+Authentication required to have access to this resource.
+
+#### Parameters
+| Name | Located in | Description | Required | Schema | Default value |
+| ---- | ---------- | ----------- | -------- | ------ | ------------- |
+| tvChannelId | path | The id of a TV channel on which a TS image was grabbed. | Yes | number (long) | |
+| timestampRef | path | The timestamp when a TS image was grabbed. | Yes | number (long) | | 
+
+#### Produces
+* application/json
+
+#### Responses
+* Status code: **200**. Description: A TS image. Schema:
+```javascript
+{
+  id: number (long),
+  tvChannelId: number (long),
+  timestampRef: number (long),
+  mimeType: string (MIME Type),
+  width: number (int),
+  height: number (int),
+  _links: {
+    self: {
+      href: string (url)
+    },
+    download: {
+      href: string (url)
+    }
+  }
+}
+```
+
+### `GET /ts-images/{tvChannelId}/{timestampRef}/download`
+#### Description
+Downloads the data of a TS image grabbed on a TV channel at a timestamp.
+
+#### Security
+Authentication required to have access to this resource.
+
+#### Parameters
+| Name | Located in | Description | Required | Schema | Default value |
+| ---- | ---------- | ----------- | -------- | ------ | ------------- |
+| tvChannelId | path | The id of a TV channel on which a TS image was grabbed. | Yes | number (long) | |
+| timestampRef | path | The timestamp when a TS image was grabbed. | Yes | number (long) | | 
+
+#### Produces
+* The MIME Type of the TS image (e.g. image/jpeg).
+
+#### Responses
+* Status code: **200**. Description: The data of the TS image. Filename:
+ts-image-{tvChannelId}-{timestampRef}.{mimeType.subType}.
