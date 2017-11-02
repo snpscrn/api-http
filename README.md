@@ -6,7 +6,8 @@ Table of Contents
 * [A REST service which serves search in the index of TV channels grabbed by the system (`/tv-search`).](#tv-search)
 * [A REST service which serves TS images grabbed by the system on TV channels (`/ts-images`).](#ts-images)
 * [A REST service which serves search in the index of advertisements (`/ads/search`).](#adssearch)
-* [A REST service which serves ad images. (`/ads/images`).](#adsimages)
+* [A REST service which serves ad images (`/ads/images`).](#adsimages)
+* [Support.](#support)
 
 ## `/oauth/token`
 A REST service which serves OAuth2 token requests (/oauth/token).
@@ -1587,3 +1588,6 @@ Authentication required to have access to this resource.
 #### Responses
 * Status code: **200**. Description: The data of the advertisement image.
 Filename: ad-image-{id}-{advertisementId}-{timeOffset}.{mimeType.subType}.
+
+## Support
+In case of any questions or problems please contact us at [support@snapscreen.com](mailto:support@snapscreen.com).
