@@ -365,7 +365,7 @@ Authentication required to have access to this resource.
             "href": string (url)
           },
           "poster": {
-           "href": string (url)
+            "href": string (url)
           }
         }
       },
@@ -419,8 +419,8 @@ Authentication required to have access to this resource.
           }
         }
       },
-      "timestampRef": number (long)
-      "score": number (double),
+      "timestampRef": number (long),
+      "score": number (double)
     }
   ],
   "adEntries": [
@@ -432,7 +432,7 @@ Authentication required to have access to this resource.
         "landingPage": string (url),
         "duration": number (long)
       },
-      "timeOffset": number (long)
+      "timeOffset": number (long),
       "score": number (double)
     }
   ]
@@ -498,7 +498,7 @@ Authentication required to have access to this resource.
             "href": string (url)
           },
           "poster": {
-           "href": string (url)
+            "href": string (url)
           }
         }
       },
@@ -552,8 +552,8 @@ Authentication required to have access to this resource.
           }
         }
       },
-      "timestampRef": number (long)
-      "score": number (double),
+      "timestampRef": number (long),
+      "score": number (double)
     }
   ],
   "adEntries": [
@@ -565,7 +565,7 @@ Authentication required to have access to this resource.
         "landingPage": string (url),
         "duration": number (long)
       },
-      "timeOffset": number (long)
+      "timeOffset": number (long),
       "score": number (double)
     }
   ],
@@ -651,7 +651,7 @@ Authentication required to have access to this resource.
             "href": string (url)
           },
           "poster": {
-           "href": string (url)
+            "href": string (url)
           }
         }
       },
@@ -705,8 +705,8 @@ Authentication required to have access to this resource.
           }
         }
       },
-      "timestampRef": number (long)
-      "score": number (double),
+      "timestampRef": number (long),
+      "score": number (double)
     }
   ],
   "adEntries": [
@@ -718,7 +718,7 @@ Authentication required to have access to this resource.
         "landingPage": string (url),
         "duration": number (long)
       },
-      "timeOffset": number (long)
+      "timeOffset": number (long),
       "score": number (double)
     }
   ]
@@ -786,7 +786,7 @@ Authentication required to have access to this resource.
             "href": string (url)
           },
           "poster": {
-           "href": string (url)
+            "href": string (url)
           }
         }
       },
@@ -840,8 +840,8 @@ Authentication required to have access to this resource.
           }
         }
       },
-      "timestampRef": number (long)
-      "score": number (double),
+      "timestampRef": number (long),
+      "score": number (double)
     }
   ],
   "adEntries": [
@@ -853,7 +853,7 @@ Authentication required to have access to this resource.
         "landingPage": string (url),
         "duration": number (long)
       },
-      "timeOffset": number (long)
+      "timeOffset": number (long),
       "score": number (double)
     }
   ],
@@ -1079,7 +1079,7 @@ Authentication required to have access to this resource.
         }
       },
       "timestampRef": number (long),
-      "score": number (double),
+      "score": number (double)
     }
   ],
   "adEntries": [
@@ -1209,7 +1209,7 @@ Authentication required to have access to this resource.
         }
       },
       "timestampRef": number (long),
-      "score": number (double),
+      "score": number (double)
     }
   ],
   "adEntries": [
@@ -1321,7 +1321,7 @@ Authentication required to have access to this resource.
         }
       },
       "timestampRef": number (long),
-      "score": number (double),
+      "score": number (double)
     }
   ],
   "adEntries": [
