@@ -15,43 +15,6 @@ In case of any questions or problems please contact us at [support@snapscreen.co
 ## `/oauth/token`
 A REST service which serves OAuth2 token requests (/oauth/token).
 
-### `POST https://api.snapscreen.com/api/oauth/token (client_id&client_secret&grant_type=client_credentials&device_fingerprint)`
-#### Description
-Grants an access token by client credentials.
-
-#### Security
-Client credentials required.
-
-#### Parameters
-| Name | Located in | Description | Required | Schema | Default value |
-| ---- | ---------- | ----------- | -------- | ------ | ------------- |
-| client_id | form | The client identifier specific to the client. | Yes | string | |
-| client_secret | form | The client secret. | No | string | | 
-| grant_type | form | Access grant type, in this case should client_credentials. | Yes | string (strict value: client_credentials) | | 
-| device_fingerprint | form | Unique device fingerprint. | Yes | String | | 
-
-#### Produces
-* application/json
-
-#### Responses
-* Status code: **200**. Description: An access token and it requisites. Schema:
-```javascript
-{
-  "access_token": string
-  "token_type": string
-  "refresh_token": string
-  "expires_in": number (long)
-  "scope": string
-}
-```
-* Status code: **4xx, 5xx**. Description: An error during authentication. Schema:
-```javascript
-{
-  "error": string,
-  "error_description": string
-}
-```
-
 ### `POST https://api.snapscreen.com/api/oauth/token (client_id&client_secret&grant_type=anonymous&email&device_fingerprint)`
 
 #### Description
@@ -84,168 +47,6 @@ Client credentials required.
 }
 ```
 * Status code: **4xx, 5xx**. Description: An error during authentication. Schema:  
-```javascript
-{
-  "error": string,
-  "error_description": string
-}
-```
-
-### `POST https://api.snapscreen.com/api/oauth/token (client_id&client_secret&grant_type=password&username&password&device_fingerprint)`
-
-#### Description
-Grants an access token to a user by email and password.
-
-#### Security
-Client credentials required.
-
-#### Parameters
-| Name | Located in | Description | Required | Schema | Default value |
-| ---- | ---------- | ----------- | -------- | ------ | ------------- |
-| client_id | form | The client identifier specific to the client. | Yes | string | |
-| client_secret | form | The client secret. | Yes | string | |
-| grant_type | form | Access grant type, in this case should password. | Yes | string (strict value: password) | |
-| username | form | A user email. | Yes| string | |
-| password | form | A user password. | Yes | string | |
-| device_fingerprint | form | Unique device fingerprint. | Yes | string | | 
-
-#### Produces
-* application/json
-
-#### Responses
-* Status code: **200**. Description: An access token and it requisites. Schema: 
-```javascript
-{
-  "access_token": string,
-  "token_type": string,
-  "refresh_token": string,
-  "expires_in": number (long),
-  "scope": string
-}
-```
-* Status code: **4xx, 5xx**. Description: An error during authentication. Schema: 
-```javascript
-{
-  "error": string,
-  "error_description": string
-}
-```
-
-### `POST https://api.snapscreen.com/api/oauth/token (client_id&client_secret&grant_type=facebook&access_token&anonymous_token&device_fingerprint)`
-
-#### Description
-Grants an access token to a user via Facebook.
-
-#### Security
-Client credentials required.
-
-#### Parameters
-| Name | Located in | Description | Required | Schema | Default value |
-| ---- | ---------- | ----------- | -------- | ------ | ------------- |
-| client_id | form | The client identifier specific to the client. | Yes | string | | 
-| client_secret | form | The client secret. | Yes | string | |
-| grant_type | form | Access grant type, in this case should facebook. | Yes | string (strict value: facebook) | |
-| access_token | form | Facebook OAuth access token to verify user identity. | Yes | string | | 
-| anonymous_token | form | Access token granted to anonymous user, if any available. | No | string | |
-| device_fingerprint | form | Unique device fingerprint. | Yes | string | | 
-
-#### Produces
-* application/json
-
-#### Responses
-* Status code: **200**. Description: An access token and it requisites. 
-```javascript
-{
-  "access_token": string,
-  "token_type": string,
-  "refresh_token": string,
-  "expires_in": number (long),
-  "scope": string
-}
-```
-* Status code: **4xx, 5xx**. Description: An error during authentication. Schema: 
-```javascript
-{
-  "error": string,
-  "error_description": string
-}
-```
-
-### `POST https://api.snapscreen.com/api/oauth/token (client_id&client_secret&grant_type=google&id_token&access_token&anonymous_token&device_fingerprint)`
-
-#### Description
-Grants an access token to a user via Google.
-
-#### Security
-Client credentials required.
-
-#### Parameters
-| Name | Located in | Description | Required | Schema | Default value |
-| ---- | ---------- | ----------- | -------- | ------ | ------------- |
-| client_id | form | The client identifier specific to the client. | Yes | string | | 
-| client_secret | form | The client secret. | Yes | string | |
-| grant_type | form | Access grant type, in this case should google. | Yes | string (strict value: google) | | 
-| id_token | form | Google ID token to verify user identity. | Yes | string | |
-| access_token | form | Google OAuth access token to verify user identity. Will only be used to retrieve user profile image. For authentication only id_token is required. | No | string | |
-| anonymous_token | form | Access token granted to anonymous user, if any available. | No | string | |
-| device_fingerprint | form | Unique device fingerprint. | Yes | String | | 
-
-#### Produces
-* application/json
-
-#### Responses
-* Status code: **200**. Description: An access token and it requisites. Schema: 
-```javascript
-{
-  "access_token": string,
-  "token_type": string,
-  "refresh_token": string,
-  "expires_in": number (long),
-  "scope": string
-}
-```
-* Status code: **4xx, 5xx**. Description: An error during authentication. Schema: 
-```javascript
-{
-  "error": string,
-  "error_description": string
-}
-```
-
-### `POST https://api.snapscreen.com/api/oauth/token (client_id&client_secret&grant_type=twitter&x_auth_service_provider&x_verify_credentials_authorization&anonymous_token&device_fingerprint)`
-
-#### Description
-Grants an access token to a user via Twitter.
-
-#### Security
-Client credentials required.
-
-#### Parameters
-| Name | Located in | Description | Required | Schema | Default value |
-| ---- | ---------- | ----------- | -------- | ------ | ------------- |
-| client_id | form | The client identifier specific to the client. | Yes | string | |
-| client_secret | form | The client secret. | Yes | string | |
-| grant_type | form | Access grant type, in this case should twitter. | Yes | string (strict value: twitter) | |
-| x_auth_service_provider | form | Twitter OAuth Echo service provider URL. | Yes | string | |
-| x_verify_credentials_authorization | form | Twitter OAuth Echo authorization header. | Yes | string | |
-| anonymous_token | form | Access token granted to anonymous user, if any available. | No | string | |
-| device_fingerprint | form | Unique device fingerprint. | Yes | String | | 
-
-#### Produces
-* application/json
-
-#### Responses
-* Status code: **200**. Description: An access token and it requisites. Schema: 
-```javascript
-{
-  "access_token": string,
-  "token_type": string,
-  "refresh_token": string,
-  "expires_in": number (long),
-  "scope": string
-}
-```
-* Status code: **4xx, 5xx**. Description: An error during authentication. Schema: 
 ```javascript
 {
   "error": string,
@@ -607,8 +408,8 @@ Authentication required to have access to this resource.
 | Name | Located in | Description | Required | Schema | Default value |
 | ---- | ---------- | ----------- | -------- | ------ | ------------- |
 | X-Snapscreen-FingerprintAlgorithm | header | The version of an algorithm used to compute the fingerprint for search. | Yes | number (int) | |
-| X-Snapscreen-Timestamp | header | A timestamp to search near it. | Yes | number (long) | |
-| X-Snapscreen-TimestampWing | header | A wing to search around the timestamp. Optional, if not provided the default value be used. | No | number (long) | 30000 |
+| X-Snapscreen-Timestamp | header | A timestamp (the number of milliseconds from the epoch of 1970-01-01T00:00:00Z) to search near it. | Yes | number (long) | |
+| X-Snapscreen-TimestampWing | header | A wing in milliseconds to search around the timestamp. Optional, if not provided the default value be used. | No | number (long) | 30000 |
 | X-Snapscreen-SearchAds | header | Whether to include ads into the result. | No | boolean | false |
 | X-Snapscreen-CountryCode | header | The ISO code of a country to filter result entries for TV channels broadcasted in it. | No | string | |
 | X-Snapscreen-GeoLocation | header | A GEO location from which the user made a request for search. | No | string | |
@@ -742,8 +543,8 @@ Authentication required to have access to this resource.
 | X-Snapscreen-MimeType | header | The MIME type of the image for search. | Yes | string | |
 | X-Snapscreen-Width | header | The width of the image for search. | Yes | number (int) | |
 | X-Snapscreen-Height | header | The height of the image for search. | Yes | number (int) | |
-| X-Snapscreen-Timestamp | header | A timestamp to search near it. | Yes | number (long) | |
-| X-Snapscreen-TimestampWing | header | A wing to search around the timestamp. Optional, if not provided the default value will be used. | No | number (long) | 30000 |
+| X-Snapscreen-Timestamp | header | A timestamp (the number of milliseconds from the epoch of 1970-01-01T00:00:00Z) to search near it. | Yes | number (long) | |
+| X-Snapscreen-TimestampWing | header | A wing in milliseconds to search around the timestamp. Optional, if not provided the default value will be used. | No | number (long) | 30000 |
 | X-Snapscreen-SearchAds | header | Whether to include ads into the result. | No | boolean | false |
 | X-Snapscreen-CountryCode | header | The ISO code of a country to filter result entries for TV channels broadcasted in it. | No | string | |
 | X-Snapscreen-GeoLocation | header | A GEO location from which the user made a request for search. | No | string | |
@@ -1133,8 +934,8 @@ Authentication required to have access to this resource.
 | Name | Located in | Description | Required | Schema | Default value |
 | ---- | ---------- | ----------- | -------- | ------ | ------------- |
 | X-Snapscreen-FingerprintAlgorithm | header | The version of an algorithm used to compute the fingerprint for search. | Yes | number (int) | |
-| X-Snapscreen-Timestamp | header | A timestamp to search near it. | Yes | number (long) | |
-| X-Snapscreen-TimestampWing | header | A wing to search around the timestamp. Optional, if not provided the default value be used. | No | number (long) | 30000 |
+| X-Snapscreen-Timestamp | header | A timestamp (the number of milliseconds from the epoch of 1970-01-01T00:00:00Z) to search near it. | Yes | number (long) | |
+| X-Snapscreen-TimestampWing | header | A wing in milliseconds to search around the timestamp. Optional, if not provided the default value be used. | No | number (long) | 30000 |
 | X-Snapscreen-SearchAds | header | Whether to include ads into the result. | No | boolean | false |
 | X-Snapscreen-CountryCode | header | The ISO code of a country to filter result entries for TV channels broadcasted in it. | No | string | |
 | X-Snapscreen-GeoLocation | header | A GEO location from which the user made a request for search. | No | string | |
@@ -1245,8 +1046,8 @@ Authentication required to have access to this resource.
 | X-Snapscreen-MimeType | header | The MIME type of the image for search. | Yes | string | |
 | X-Snapscreen-Width | header | The width of the image for search. | Yes | number (int) | |
 | X-Snapscreen-Height | header | The height of the image for search. | Yes | number (int) | |
-| X-Snapscreen-Timestamp | header | A timestamp to search near it. | Yes | number (long) | |
-| X-Snapscreen-TimestampWing | header | A wing to search around the timestamp. Optional, if not provided the default value will be used. | No | number (long) | 30000 |
+| X-Snapscreen-Timestamp | header | A timestamp (the number of milliseconds from the epoch of 1970-01-01T00:00:00Z) to search near it. | Yes | number (long) | |
+| X-Snapscreen-TimestampWing | header | A wing in milliseconds to search around the timestamp. Optional, if not provided the default value will be used. | No | number (long) | 30000 |
 | X-Snapscreen-SearchAds | header | Whether to include ads into the result. | No | boolean | false |
 | X-Snapscreen-CountryCode | header | The ISO code of a country to filter result entries for TV channels broadcasted in it. | No | string | |
 | X-Snapscreen-GeoLocation | header | A GEO location from which the user made a request for search. | No | string | |
