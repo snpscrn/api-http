@@ -8,6 +8,7 @@ Table of Contents
 * [A REST service which serves TS images grabbed by the system on TV channels (`/ts-images`).](#ts-images)
 * [A REST service which serves search in the index of advertisements (`/ads/search`).](#adssearch)
 * [A REST service which serves ad images (`/ads/images`).](#adsimages)
+* [A REST service which serves TV channels (`/tv-channels`).](#tv-channels)
 
 ## Support
 In case of any questions or problems please contact us at [support@snapscreen.com](mailto:support@snapscreen.com).
@@ -1382,3 +1383,96 @@ Authentication required to have access to this resource.
 #### Responses
 * Status code: **200**. Description: The data of the advertisement image.
 Filename: ad-image-{id}-{advertisementId}-{timeOffset}.{mimeType.subType}.
+
+## `/tv-channels`
+A REST service which serves TV channels (/tv-channels).
+
+### `GET /tv-channels{?grabbed=true,page,size,sort}`
+#### Description
+Lists grabbed TV channels registered in the system.
+
+#### Security
+Authentication required to have access to this resource.
+
+#### Parameters
+| Name | Located in | Description | Required | Schema | Default value |
+| ---- | ---------- | ----------- | -------- | ------ | ------------- |
+| grabbed | query | The flag indicating the system grabs TV channels. | Yes | boolean | true |
+| page | query | The number of a page you want to retrieve. | No | number (int) | 0 |
+| size | query | The size of a page you want to retrieve. | No | number (int) | 10 |
+| sort | query | Properties that should be sorted by. Default sort direction is ascending. Use multiple sort parameters if you want to switch directions. | No | string (property,property(,ASC&#124;DESC)) | name |
+
+#### Produces<
+* application/json
+
+#### Responses
+* Status code: **200**. Description: A page of TV channels. Schema:
+```javascript
+ {
+  _links: {
+    self: {
+      href: string (url)
+    },
+    next: {
+        href: string (url)
+    },
+    prev: {
+        href: string (url)
+    }
+  },
+  _embedded: {
+    tvChannelList: [
+      {
+        id: number (long),
+        code: string,
+        name: string,
+        homepage: string (url),
+        grabbed: boolean,
+        tvCategories: [
+          {
+            id: string,
+            name: string,
+            description: string
+          }
+        ],
+        language: {
+          id: number (long),
+          code: string,
+          name: string
+        },
+        // begin: not accessible for customers
+        epgProvider: {
+          id: number (long),
+          code: string,
+          description: string
+        },
+        epgCode: string,
+        sportEventProvider: {
+          id: number (long),
+          code: string,
+          description: string
+        },
+        sportEventCode: string,
+        // end: not accessible for customers
+        _links: {
+          self: {
+            href: string (url)
+          },
+          logo: {
+            href: string (url)
+          },
+          poster: {
+            href: string (url)
+          }
+        }
+      }
+    ]
+  },
+  page: {
+    size: number (int),
+    totalElements: number (long),
+    totalPages: number (int),
+    number: number (int)
+  }
+}
+```
