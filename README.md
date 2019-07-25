@@ -113,7 +113,7 @@ A REST service which serves search in the index of TV channels grabbed by the sy
 ### `POST https://api.snapscreen.com/api/tv-search/epg`
 
 #### Description
-Searches the EPG data using the TV index by a fingerprint optionally filtering by the ISO-code of a country in which TV channels broadcasted.
+Searches the EPG data using the TV index by a fingerprint.
 
 #### Security
 Authentication required to have access to this resource.
@@ -126,7 +126,6 @@ Authentication required to have access to this resource.
 | ---- | ---------- | ----------- | -------- | ------ | ------------- |
 | X-Snapscreen-FingerprintAlgorithm | header | The version of an algorithm used to compute the fingerprint for search. | Yes | number (int) | |
 | X-Snapscreen-SearchAds | header | Whether to include ads into the result. | No | boolean | false |
-| X-Snapscreen-CountryCode | header | The ISO code of a country to filter result entries for TV channels broadcasted in it. | No | string | |
 | X-Snapscreen-GeoLocation | header | A GEO location from which the user made this request for search. | No | string | |
 | X-Snapscreen-DeviceInfo | header | An info about a device used by the user to make this request for search. | No | string | |
 | | body | The data of the computed fingerprint. | Yes | array (byte) | |
@@ -244,7 +243,7 @@ Authentication required to have access to this resource.
 ### `POST https://api.snapscreen.com/api/tv-search/epg/by-image`
 
 #### Description
-Searches the EPG data using the TV index by an image optionally filtering by the ISO-code of a country in which TV channels broadcasted.
+Searches the EPG data using the TV index by an image.
 
 #### Security
 Authentication required to have access to this resource.
@@ -257,7 +256,6 @@ Authentication required to have access to this resource.
 | ---- | ---------- | ----------- | -------- | ------ | ------------- |
 | X-Snapscreen-MimeType | header | The MIME type of the image for search. | Yes | string | |
 | X-Snapscreen-SearchAds | header | Whether to include ads into the result. | No | boolean | false |
-| X-Snapscreen-CountryCode | header | The ISO code of a country to filter result entries for TV channels broadcasted in it. | No | string | |
 | X-Snapscreen-GeoLocation | header | A GEO location from which the user made a request for search. | No | string | |
 | X-Snapscreen-DeviceInfo | header | An info about a device used by the user to make a request for search. | No | string | |
 | | body | The data of the image. | Yes | array (byte) | |
@@ -395,7 +393,7 @@ Authentication required to have access to this resource.
 ### `POST https://api.snapscreen.com/api/tv-search/epg/near-timestamp`
 
 #### Description
-Searches the EPG data using the TV index by a fingerprint and near the specified timestamp optionally filtering by the ISO-code of a country in which TV channels broadcasted.
+Searches the EPG data using the TV index by a fingerprint and near the specified timestamp.
 
 #### Security
 Authentication required to have access to this resource.
@@ -410,7 +408,6 @@ Authentication required to have access to this resource.
 | X-Snapscreen-Timestamp | header | A timestamp (the number of milliseconds from the epoch of 1970-01-01T00:00:00Z) to search near it. | Yes | number (long) | |
 | X-Snapscreen-TimestampWing | header | A wing in milliseconds to search around the timestamp. Optional, if not provided the default value be used. | No | number (long) | 30000 |
 | X-Snapscreen-SearchAds | header | Whether to include ads into the result. | No | boolean | false |
-| X-Snapscreen-CountryCode | header | The ISO code of a country to filter result entries for TV channels broadcasted in it. | No | string | |
 | X-Snapscreen-GeoLocation | header | A GEO location from which the user made a request for search. | No | string | |
 | X-Snapscreen-DeviceInfo | header | An info about a device used by the user to make a request for search. | No | string | |
 | | body | The data of the computed fingerprint. | Yes | array (byte) | |
@@ -528,7 +525,7 @@ Authentication required to have access to this resource.
 ### `POST https://api.snapscreen.com/api/tv-search/epg/near-timestamp/by-image`
 
 #### Description
-Searches the EPG data using the TV index by an image and near the specified timestamp optionally filtering by the ISO-code of a country in which TV channels broadcasted.
+Searches the EPG data using the TV index by an image and near the specified timestamp.
 
 #### Security
 Authentication required to have access to this resource.
@@ -543,7 +540,6 @@ Authentication required to have access to this resource.
 | X-Snapscreen-Timestamp | header | A timestamp (the number of milliseconds from the epoch of 1970-01-01T00:00:00Z) to search near it. | Yes | number (long) | |
 | X-Snapscreen-TimestampWing | header | A wing in milliseconds to search around the timestamp. Optional, if not provided the default value will be used. | No | number (long) | 30000 |
 | X-Snapscreen-SearchAds | header | Whether to include ads into the result. | No | boolean | false |
-| X-Snapscreen-CountryCode | header | The ISO code of a country to filter result entries for TV channels broadcasted in it. | No | string | |
 | X-Snapscreen-GeoLocation | header | A GEO location from which the user made a request for search. | No | string | |
 | X-Snapscreen-DeviceInfo | header | An info about a device used by the user to make a request for search. | No | string | |
 | | body | The data of the image. | Yes | array (byte) | |
@@ -681,7 +677,7 @@ Authentication required to have access to this resource.
 ### `POST https://api.snapscreen.com/api/tv-search/sport`
 
 #### Description
-Searches sport events using the TV index by a fingerprint optionally filtering by the ISO-code of a country in which TV channels broadcasted.
+Searches sport events using the TV index by a fingerprint.
 
 #### Security
 Authentication required to have access to this resource.
@@ -694,7 +690,6 @@ Authentication required to have access to this resource.
 | ---- | ---------- | ----------- | -------- | ------ | ------------- |
 | X-Snapscreen-FingerprintAlgorithm | header | The version of an algorithm used to compute the fingerprint for search. | Yes | number (int) | |
 | X-Snapscreen-SearchAds | header | Whether to include ads into the result. | No | boolean | false |
-| X-Snapscreen-CountryCode | header | The ISO code of a country to filter result entries for TV channels broadcasted in it. | No | string | |
 | X-Snapscreen-GeoLocation | header | A GEO location from which the user made this request for search. | No | string | |
 | X-Snapscreen-DeviceInfo | header | An info about a device used by the user to make this request for search. | No | string | |
 | | body | The data of the computed fingerprint. | Yes | array (byte) | |
@@ -789,7 +784,7 @@ Authentication required to have access to this resource.
 ### `POST https://api.snapscreen.com/api/tv-search/sport/by-image`
 
 #### Description
-Searches sport events using the TV index by an image optionally filtering by the ISO-code of a country in which TV channels broadcasted.
+Searches sport events using the TV index by an image.
 
 #### Security
 Authentication required to have access to this resource.
@@ -802,7 +797,6 @@ Authentication required to have access to this resource.
 | ---- | ---------- | ----------- | -------- | ------ | ------------- |
 | X-Snapscreen-MimeType | header | The MIME type of the image for search. | Yes | string | |
 | X-Snapscreen-SearchAds | header | Whether to include ads into the result. | No | boolean | false |
-| X-Snapscreen-CountryCode | header | The ISO code of a country to filter result entries for TV channels broadcasted in it. | No | string | |
 | X-Snapscreen-GeoLocation | header | A GEO location from which the user made a request for search. | No | string | |
 | X-Snapscreen-DeviceInfo | header | An info about a device used by the user to make a request for search. | No | string | |
 | | body | The data of the image. | Yes | array (byte) | |
@@ -917,7 +911,7 @@ Authentication required to have access to this resource.
 ### `POST https://api.snapscreen.com/api/tv-search/sport/near-timestamp`
 
 #### Description
-Searches sport events using the TV index by a fingerprint and near the specified timestamp optionally filtering by the ISO-code of a country in which TV channels broadcasted.
+Searches sport events using the TV index by a fingerprint and near the specified timestamp.
 
 #### Security
 Authentication required to have access to this resource.
@@ -932,7 +926,6 @@ Authentication required to have access to this resource.
 | X-Snapscreen-Timestamp | header | A timestamp (the number of milliseconds from the epoch of 1970-01-01T00:00:00Z) to search near it. | Yes | number (long) | |
 | X-Snapscreen-TimestampWing | header | A wing in milliseconds to search around the timestamp. Optional, if not provided the default value be used. | No | number (long) | 30000 |
 | X-Snapscreen-SearchAds | header | Whether to include ads into the result. | No | boolean | false |
-| X-Snapscreen-CountryCode | header | The ISO code of a country to filter result entries for TV channels broadcasted in it. | No | string | |
 | X-Snapscreen-GeoLocation | header | A GEO location from which the user made a request for search. | No | string | |
 | X-Snapscreen-DeviceInfo | header | An info about a device used by the user to make a request for search. | No | string | |
 | | body | The data of the computed fingerprint. | Yes | array (byte) | |
@@ -1027,7 +1020,7 @@ Authentication required to have access to this resource.
 ### `POST https://api.snapscreen.com/api/tv-search/sport/near-timestamp/by-image`
 
 #### Description
-Searches sport events using the TV index by an image and near the specified timestamp optionally filtering by the ISO-code of a country in which TV channels broadcasted.
+Searches sport events using the TV index by an image and near the specified timestamp.
 
 #### Security
 Authentication required to have access to this resource.
@@ -1042,7 +1035,6 @@ Authentication required to have access to this resource.
 | X-Snapscreen-Timestamp | header | A timestamp (the number of milliseconds from the epoch of 1970-01-01T00:00:00Z) to search near it. | Yes | number (long) | |
 | X-Snapscreen-TimestampWing | header | A wing in milliseconds to search around the timestamp. Optional, if not provided the default value will be used. | No | number (long) | 30000 |
 | X-Snapscreen-SearchAds | header | Whether to include ads into the result. | No | boolean | false |
-| X-Snapscreen-CountryCode | header | The ISO code of a country to filter result entries for TV channels broadcasted in it. | No | string | |
 | X-Snapscreen-GeoLocation | header | A GEO location from which the user made a request for search. | No | string | |
 | X-Snapscreen-DeviceInfo | header | An info about a device used by the user to make a request for search. | No | string | |
 | | body | The data of the image. | Yes | array (byte) | |
