@@ -9,6 +9,7 @@ Table of Contents
 * [A REST service which serves search in the index of advertisements (`/ads/search`).](#adssearch)
 * [A REST service which serves ad images (`/ads/images`).](#adsimages)
 * [A REST service which serves TV channels (`/tv-channels`).](#tv-channels)
+* [A REST service which serves created clips (`/clips`).](#clips)
 
 ## Support
 In case of any questions or problems please contact us at [support@snapscreen.com](mailto:support@snapscreen.com).
@@ -1468,3 +1469,48 @@ Authentication required to have access to this resource.
   }
 }
 ```
+
+## `/clips`
+A REST service which serves created clips (/clips).
+
+### `GET https://clip.farm/api/clips/{clipId}`
+#### Description
+Retrieves metadata of the clip with the specified id.
+
+#### Security
+Authentication required to have access to this resource.
+
+#### Parameters
+| Name | Located in | Description | Required | Schema | Default value |
+| ---- | ---------- | ----------- | -------- | ------ | ------------- |
+| clipId | path | The id of the clip. | Yes | string | |
+
+#### Produces
+* application/json
+
+#### Responses
+* Status code: **200**. Description: The clip metadata. Schema:
+```javascript
+{
+  id: string,
+  tvChannelId: number (long),
+  timestampRefFrom: number (long),
+  timestampRefTo: number (long),
+  timestampRefThumb: number (long),
+  _links: {
+    self: {
+      href: string (url)
+    },
+    thumbnail: {
+      href: string (url)
+    },
+    video: {
+        href: string (url)
+    },
+    player: {
+        href: string (url)
+    }
+  }
+}
+```
+* Status code: **404**. Description: Clip not found.. Schema:
