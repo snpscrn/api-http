@@ -1473,7 +1473,7 @@ Authentication required to have access to this resource.
 ## `/clips`
 A REST service which serves created clips (/clips).
 
-### `GET https://clip.farm/api/clips/{clipId}`
+### `GET https://clip.snapscreen.com/api/clips/{clipId}`
 #### Description
 Retrieves metadata of the clip with the specified id.
 
